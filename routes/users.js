@@ -4,5 +4,6 @@ var controller=require('../controllers/UserController');
 
 router.get("/", controller.getUser);
 router.post("/add", controller.addUser);
-
+router.get('/:id',controller.getUserbyId);
+router.delete("/:username", controller.deleteUser);
 module.exports=router;
