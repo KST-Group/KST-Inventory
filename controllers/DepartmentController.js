@@ -112,10 +112,33 @@ const deleteDepartment = (req, res) => {
   }
 };
 
+const getDataByCompany = (req, res) => {
+  let cm=req.params.cm;
+  if (!cm) {
+    return res.send({ error: true, message: "CompanyId is empty" });
+  } else {
+    dbConnect.query(
+      "SELECT*FROM departments WHERE companyId=?",
+      [cm],
+      (error, results, field) => {
+        if (error) throw error;
+        let message = "";
+        if (results === undefined || results.length == 0) {
+          message = "Department is empty by cm";
+        } else {
+          message = "Successfully get you department";
+        }
+        return res.send({ error: false, data: results, message: message });
+      }
+    );
+  }
+};
+
 module.exports = {
   retrieveDepart,
   retrieveDataById,
   addDataDepartment,
   updateDepartment,
   deleteDepartment,
+  getDataByCompany,
 };

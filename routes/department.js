@@ -8,5 +8,6 @@ router.get('/:id',controller.retrieveDataById)
 router.post('/add',controller.addDataDepartment);
 router.put('/update',controller.updateDepartment);
 router.delete('/delete',controller.deleteDepartment);
+router.get("/cm/:cm", controller.getDataByCompany);
 
 module.exports=router;

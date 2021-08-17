@@ -22,7 +22,11 @@ const retrieveCompany = async (req, res) => {
 
 ///Insert data to database
 const addCompany = (req, res) => {
+  var companyId = req.body.companyId;
   var company = req.body.company;
+  var description = req.body.description;
+  var address = req.body.address;
+  var tel = req.body.tel;
   if (!company) {
     return res.status(400).send({
       error: true,
@@ -30,8 +34,8 @@ const addCompany = (req, res) => {
     });
   } else {
     dbConnect.query(
-      "INSERT INTO companys (companyId,company) values (?,?)",
-      ["", company],
+      "INSERT INTO companys (companyId,company,description,address,tel) values (?,?,?,?,?)",
+      [companyId, company, description, address, tel],
       (error, results, field) => {
         if (error) throw error;
         return res.send({
