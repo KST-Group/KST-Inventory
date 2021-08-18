@@ -40,7 +40,7 @@ app.get("/", (req, res) => {
 app.use("/login", loginRouter);
 app.use("/users", users);
 app.use("/company", company);
-app.use("/deparment", deparRouter);
+app.use("/department", deparRouter);
 app.use("/position", positionRouter);
 app.use("/devicetype", devicetypeRouter);
 app.use("/brands", brandRouter);
