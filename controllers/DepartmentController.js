@@ -42,13 +42,14 @@ const retrieveDataById = (req, res) => {
 const addDataDepartment = (req, res) => {
   let department = req.body.department;
   let companyId = req.body.companyId;
+  let description= req.body.description;
 
-  if (!department || !companyId) {
+  if (!department) {
     res.send({ error: true, message: "Required data" });
   } else {
     dbConnect.query(
-      "INSERT INTO departments (departmentId,department,companyId) values(?,?,?)",
-      ["", department, companyId],
+      "INSERT INTO departments (departmentId,department,companyId,description) values(?,?,?,?)",
+      ["", department, companyId,description],
       (error, results, field) => {
         if (error) throw error;
         return res.send({

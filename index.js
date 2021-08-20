@@ -8,7 +8,8 @@ var positionRouter = require("./routes/position");
 var loginRouter = require("./routes/login");
 var devicetypeRouter = require("./routes/devicetype");
 var brandRouter = require("./routes/brands");
-var deviceInfo=require("./routes/device_info");
+var deviceInfo = require("./routes/device_info");
+const employeeRouter = require("./routes/employee");
 
 const app = express();
 
@@ -46,6 +47,7 @@ app.use("/devicetype", devicetypeRouter);
 app.use("/brands", brandRouter);
 
 app.use("/devices", deviceInfo);
+app.use("/employee", employeeRouter);
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
