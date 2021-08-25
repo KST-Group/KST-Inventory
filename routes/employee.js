@@ -1,8 +1,10 @@
 var express = require('express');
-var router=express.Router();
-var controller=require('../controllers/EmployeeController');
+var router = express.Router();
+var controller = require('../controllers/EmployeeController');
 
-router.get('/',controller.getData);
+router.get('/', controller.getData);
+router.post('/add', controller.addDataEmployee);
+router.delete('/del',controller.deleteEmployee);
 
 
-module.exports=router;
+module.exports = router;

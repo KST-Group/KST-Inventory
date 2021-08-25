@@ -17,9 +17,8 @@ var Device = require("../models/DeviceModel");
 //};
 
 ///Get device data
-
 const getDeviceData = (req, res) => {
-  dbConnect.query("SELECT*FROM deviceinfo", (error, results, field) => {
+  dbConnect.query("SELECT*FROM v_devices", (error, results, field) => {
     if (error) throw error;
     let message = "";
     if (results === undefined || results.length == 0) {
