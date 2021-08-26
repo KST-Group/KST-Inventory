@@ -10,6 +10,7 @@ var devicetypeRouter = require("./routes/devicetype");
 var brandRouter = require("./routes/brands");
 var deviceInfo = require("./routes/device_info");
 const employeeRouter = require("./routes/employee");
+const checkoutRouter=require('./routes/checkout');
 
 const app = express();
 
@@ -48,6 +49,7 @@ app.use("/brands", brandRouter);
 
 app.use("/devices", deviceInfo);
 app.use("/employee", employeeRouter);
+app.use('/checkout',checkoutRouter);
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
