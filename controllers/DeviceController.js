@@ -30,59 +30,68 @@ const getDeviceData = (req, res) => {
   });
 };
 
+///Get Device Dat by Id
+const geDeviceDataById=(req,res)=>{
+  let deviceId=req.params.deviceId;
+  dbConnect.query('SELECT*FROM v_devices WHERE deviceId=?',[deviceId],(error,results,field)=>{
+    if(error) throw error;
+    let message='';
+    if(results===undefined||results.length==0){
+      message="Device not found";
+    }else{
+      message='Succesfull your data by id';
+    }
+    return res.send({error:false,data:results,message:message});
+  });
+}
+
 ///Add a device
 const addDevice = (req, res) => {
   var deviceId = req.body.deviceId;
-  var deviceName = req.body.deviceName;
-  var status = req.body.status;
+  var localId = req.body.localId;
+  var device_name = req.body.device_name;
+  var computername = req.body.computername;
   var comments = req.body.comments;
   var joinDomain = req.body.joinDomain;
   var model = req.body.model;
   var servicetag_sn = req.body.servicetag_sn;
-  var localId = req.body.localId;
-  var computername = req.body.computername;
-  //////
+  var provider = req.body.provider;
+  
+  var typeId = req.body.typeId;
+  var brandId = req.body.brandId;
   var cpus = req.body.cpus;
   var ram = req.body.ram;
   var hardisk = req.body.hardisk;
-  var provider = req.body.provider;
   var price = req.body.price;
   var warranty = req.body.warranty;
-  var startDate = req.body.startDate;
-  var expiredate = req.body.expireDate;
   var remark = req.body.remark;
-  var branId = req.body.branId;
-  var typeId = req.body.typeId;
 
-  if (!deviceId || !deviceName) {
+  if (!deviceId || !device_name) {
     return res.send({
       error: true,
       message: "Please provide your device data",
     });
   } else {
     dbConnect.query(
-      "INSERT INTO deviceinfo (deviceId,device_name,statuss,comments,joinDomain,model,servicetag_sn,localId,computername,cpus,ram,hardisk,provider,price,warranty,startDate,expireDate,remark,brandId,typeId) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+      "INSERT INTO deviceinfo (deviceId,localId,device_name,computername,comments,joinDomain,model,servicetag_sn,provider,typeId,brandId,cpus,ram,hardisk,price,warranty,remark,statuss) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
       [
         deviceId,
-        deviceName,
-        status,
+        localId,
+        device_name,
+        computername,
         comments,
         joinDomain,
         model,
         servicetag_sn,
-        localId,
-        computername,
+        provider,
+        typeId,
+        brandId,
         cpus,
         ram,
         hardisk,
-        provider,
         price,
         warranty,
-        startDate,
-        expiredate,
-        remark,
-        branId,
-        typeId,
+        remark,'Empty'
       ],
       (error, results, field) => {
         if (error) throw error;
@@ -96,4 +105,4 @@ const addDevice = (req, res) => {
   }
 };
 
-module.exports = { getDeviceData, addDevice };
+module.exports = { getDeviceData, addDevice,geDeviceDataById };
