@@ -105,4 +105,26 @@ const addDevice = (req, res) => {
   }
 };
 
-module.exports = { getDeviceData, addDevice,geDeviceDataById };
+///Delete
+const deleteDevice=(req,res)=>{
+  let deviceId=req.body.deviceId;
+
+  if(!deviceId){
+    res.send({error:true,message:'Please provide your device id for delete'});
+  }else{
+    dbConnect.query('DELETE FROM deviceinfo WHERE deviceId=?',[deviceId],(error,results,field)=>{
+      if(error) throw error;
+      let message='';
+
+      if(results.affectedRows===0){
+        message = "Device not found or already deleted";
+      }else{
+        message = "Delete Device Success";
+      }
+      return res.send({ error: false, data: results, message: message });
+
+    })
+  }
+}
+
+module.exports = { getDeviceData, addDevice,geDeviceDataById,deleteDevice };

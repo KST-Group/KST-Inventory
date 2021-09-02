@@ -35,6 +35,7 @@ app.get("/", (req, res) => {
     error: false,
     message: "Welcome to KST Inventory API",
     written_by: "Nanthavath",
+    Organization:"KST"
   });
 });
 
