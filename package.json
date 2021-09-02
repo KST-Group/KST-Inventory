@@ -3,12 +3,16 @@
   "version": "1.0.0",
   "description": "KST Inventory Project IT",
   "main": "index.js",
+  "engines": {
+    "node": "14.6.0"
+  },
   "scripts": {
-    "start": "nodemon index.js"
+    "start": "nodemon --exec babel-node index.js"
   },
   "author": "Nanthavath",
   "license": "ISC",
   "dependencies": {
+    "@babel/core": "^7.15.0",
     "body-parser": "^1.19.0",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
