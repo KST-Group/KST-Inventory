@@ -1,6 +1,7 @@
 var express = require("express");
 var bodyParser = require("body-parser");
 var users = require("./routes/users");
+require('dotenv').config();
 
 var company = require("./routes/company");
 var deparRouter = require("./routes/department");
