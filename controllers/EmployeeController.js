@@ -79,5 +79,20 @@ const deleteEmployee=(req,res)=>{
 };
 
 
+//Get Data Employee with device
+const getEmployeeWuthDevice=(req,res)=>{
+  dbConnect.query("SELECT*FROM v_empoyees", (error, results, field) => {
+    if (error) throw error;
 
-module.exports = { getData, addDataEmployee,deleteEmployee };
+    let message = "";
+    if (results === undefined || results.length == 0) {
+      message = "Employee type is empty";
+    } else {
+      message = "Successfully get all EMployee";
+    }
+    return res.send({ error: false, data: results, message: message });
+  });
+}
+
+
+module.exports = { getData, addDataEmployee,deleteEmployee,getEmployeeWuthDevice};

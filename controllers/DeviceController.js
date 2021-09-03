@@ -1,20 +1,21 @@
 var dbConnect = require("../config/config");
-var Device = require("../models/DeviceModel");
+require('dotenv').config();
 
-///Get all device
-// module.exports.getDevice = async (req, res,next) => {
-//  try{
-//      const [data] = await Device.getData();
-//      res.status(200).json(data);
-//  }catch(error){
-//       if (!err.statusCode) {
-//         err.statusCode = 500;
-//       }
-//       next(err);
+//Get Device Using
+const getDeviceUsing=(req,res)=>{
+  dbConnect.query("SELECT*FROM v_employee_using", (error, results, field) => {
+    if (error) throw error;
+    let message = "";
+    if (results === undefined || results.length == 0) {
+      message = "Using is empty";
+    } else {
+      message = "Successful Using data";
+    }
+    return res.send({ error: false, data: results, message: message });
+  });
+}
 
-//  }
 
-//};
 
 ///Get device data
 const getDeviceData = (req, res) => {
@@ -127,4 +128,7 @@ const deleteDevice=(req,res)=>{
   }
 }
 
-module.exports = { getDeviceData, addDevice,geDeviceDataById,deleteDevice };
+
+
+
+module.exports = { getDeviceData, addDevice,geDeviceDataById,deleteDevice,getDeviceUsing };
