@@ -92,7 +92,7 @@ const addDevice = (req, res) => {
         hardisk,
         price,
         warranty,
-        remark,'Empty'
+        remark,'In Stock'
       ],
       (error, results, field) => {
         if (error) throw error;

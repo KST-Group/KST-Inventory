@@ -6,6 +6,7 @@ router.get('/', controller.getData);
 router.get('/device', controller.getEmployeeWuthDevice);
 router.post('/add', controller.addDataEmployee);
 router.delete('/del',controller.deleteEmployee);
+router.get('/usings',controller.getEmployeeUsingDevice);
 
 
 module.exports = router;

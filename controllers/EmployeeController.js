@@ -95,4 +95,30 @@ const getEmployeeWuthDevice=(req,res)=>{
 }
 
 
-module.exports = { getData, addDataEmployee,deleteEmployee,getEmployeeWuthDevice};
+///Get employee with using device
+const getEmployeeUsingDevice=(req,res)=>{
+  dbConnect.query("SELECT*FROM v_employee_device", (error, results, field) => {
+    if (error) throw error;
+
+    let message = "";
+    if (results === undefined || results.length == 0) {
+      message = "Employee type is empty";
+    } else {
+      message = "Successfully get all EMployee";
+    }
+    return res.send({ error: false, data: results, message: message });
+  });
+  ///
+  // dbConnect("SELECT*FROM v_employee_device",(error,results,field)=>{
+  //   if(error) throw error;
+  //   var message='';
+  //   if(results===undefined||results.length==0){
+  //     message="Not found";
+  //   }else{
+  //     message='Successfull';
+  //   }
+  //   return res.send({error:false,data:results,message:message});
+  // });
+}
+
+module.exports = { getData, addDataEmployee,deleteEmployee,getEmployeeWuthDevice,getEmployeeUsingDevice};

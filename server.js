@@ -13,6 +13,9 @@ var brandRouter = require("./routes/brands");
 var deviceInfo = require("./routes/device_info");
 const employeeRouter = require("./routes/employee");
 const checkoutRouter=require('./routes/checkout');
+const checkInRouter=require('./routes/checkin');
+
+const orderRouter=require('./routes/order');
 
 const app = express();
 app.use(cors());
@@ -54,6 +57,9 @@ app.use("/devices", deviceInfo);
 app.use("/employee", employeeRouter);
 app.use('/checkout',checkoutRouter);
 
+app.use('/checkin',checkInRouter);
+
+app.use('/order',orderRouter);
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`Express server is running on port ${port}`);
