@@ -80,7 +80,7 @@ const deleteEmployee=(req,res)=>{
 
 
 //Get Data Employee with device
-const getEmployeeWuthDevice=(req,res)=>{
+const getEmployeeWithDevice=(req,res)=>{
   dbConnect.query("SELECT*FROM v_empoyees", (error, results, field) => {
     if (error) throw error;
 
@@ -121,4 +121,4 @@ const getEmployeeUsingDevice=(req,res)=>{
   // });
 }
 
-module.exports = { getData, addDataEmployee,deleteEmployee,getEmployeeWuthDevice,getEmployeeUsingDevice};
+module.exports = { getData, addDataEmployee,deleteEmployee,getEmployeeWithDevice,getEmployeeUsingDevice};

@@ -5,4 +5,6 @@ router.get('/',controller.getCheckOutData);
 router.post('/add',controller.createCheckOut);
 router.post('/detail',controller.createCheckOutDetail);
 router.put('/status',controller.updateStatus);
+router.post('/log',controller.addCheckOutLog);
+router.get('/logs',controller.getCheckOutLog);
 module.exports=router;

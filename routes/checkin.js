@@ -6,5 +6,6 @@ router.get('/',controller.getDataCheckin);
 router.get('/detail',controller.getDataCheckinDetail);
 router.post('/add',controller.addCheckIn);
 router.post('/adddetail',controller.addCheckInDtail);
+router.get('/view',controller.checkinView);
 
 module.exports=router;

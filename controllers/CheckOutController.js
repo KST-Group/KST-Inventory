@@ -70,4 +70,51 @@ const updateStatus=(req,res)=>{
     });
 };
 
-module.exports = { createCheckOut, getCheckOutData ,createCheckOutDetail,updateStatus};
+//Add Log
+const addCheckOutLog = (req, res) => {
+  var checkoutId = req.body.checkoutId;
+  var deviceId=req.body.deviceId;
+  var employeeId = req.body.employeeId;
+
+  if (!checkoutId||!deviceId) {
+    return res.send({ error: true, message: "Please provide checkout ID for log" });
+  } else {
+    dbConnect.query(
+      "INSERT INTO checkoutlog (checkoutId,deviceId,employeeId) VALUES (?,?,?)",
+      [checkoutId, deviceId, employeeId],
+      (error, results, field) => {
+        if (error) throw error;
+        let message = "";
+        if (results.affectedRows == 0) {
+          message = "Create checkout Log error";
+        } else {
+            message = "Create checkout log successfully";
+        }
+        
+        return res.send({
+          error: false,
+          data: results,
+          message: message,
+        });
+      }
+    );
+  }
+};
+
+const getCheckOutLog = (req, res) => {
+  dbConnect.query(
+    "SELECT*FROM checkoutlog",
+    (error, results, field) => {
+      if (error) throw error;
+      let message = "";
+      if (results === undefined || results.length == 0) {
+        message = "Checkout log data is empty";
+      } else {
+        message = "Successfully retrieve checkout log data";
+      }
+      return res.send({ error: false, data: results, message: message });
+    }
+  );
+};
+
+module.exports = { createCheckOut, getCheckOutData ,createCheckOutDetail,updateStatus,addCheckOutLog,getCheckOutLog};

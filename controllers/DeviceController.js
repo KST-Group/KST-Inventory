@@ -131,17 +131,31 @@ const deleteDevice=(req,res)=>{
 
 
 //Update Status Device
-const updateStatusDevice=(req,res)=>{
+const updateStatusDevice = (req, res) => {
   var deviceId=req.body.deviceId;
+  var statuss=req.body.statuss;
 
-  if(!deviceId){
-    return res.send({error:true,message:'Please provide device id'});
-  }else{
-    dbConnect.query("UPDATE deviceinfo SET statuss='In Stock' WHERE deviceid=?",[deviceId,(error,results,field)=>{
-      if(error) throw error;
-      
-    }])
+  if (!deviceId) {
+    return res.send({
+      error: true,
+      message: "Please input your deviceID",
+    });
+  } else {
+    dbConnect.query(
+      "UPDATE deviceinfo SET statuss=? WHERE deviceId=?",
+      [statuss, deviceId],
+      (error, results, field) => {
+        if (error) throw error;
+        let message = "";
+        if (results.changedRows == 0) {
+          message = "device not found";
+        } else {
+          message = "Update Status Successfully";
+        }
+        return res.send({ error: false, data: results, message: message });
+      }
+    );
   }
-}
+};
 
-module.exports = { getDeviceData, addDevice,geDeviceDataById,deleteDevice,getDeviceUsing };
+module.exports = { getDeviceData, addDevice,geDeviceDataById,deleteDevice,getDeviceUsing,updateStatusDevice };

@@ -79,4 +79,19 @@ const addCheckInDtail = (req, res) => {
       );
     }
   };
-module.exports = { getDataCheckin,addCheckIn,getDataCheckinDetail,addCheckInDtail };
+
+  const checkinView=(req,res)=>{
+    dbConnect.query("SELECT*FROM v_checkin", (error, results, field) => {
+      if (error) throw error;
+  
+      var message = "";
+  
+      if (results === undefined || results.length == 0) {
+        message = "Data checkin not found";
+      } else {
+        message = "Successfully chekin data";
+      }
+      return res.send({ error: false, data: results, message: message });
+    });
+  };
+module.exports = { getDataCheckin,addCheckIn,getDataCheckinDetail,addCheckInDtail,checkinView };
