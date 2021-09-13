@@ -62,7 +62,7 @@ const createCheckOutDetail=(req,res)=>{
 ///Update date device status
 const updateStatus=(req,res)=>{
     var deviceId=req.body.deviceId;
-    var status='In used';
+    var status='In use';
 
     dbConnect.query('UPDATE deviceinfo set statuss=? WHERE deviceId=?',[status,deviceId],(error,results,field)=>{
         if(error) throw error;

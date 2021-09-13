@@ -130,5 +130,18 @@ const deleteDevice=(req,res)=>{
 
 
 
+//Update Status Device
+const updateStatusDevice=(req,res)=>{
+  var deviceId=req.body.deviceId;
+
+  if(!deviceId){
+    return res.send({error:true,message:'Please provide device id'});
+  }else{
+    dbConnect.query("UPDATE deviceinfo SET statuss='In Stock' WHERE deviceid=?",[deviceId,(error,results,field)=>{
+      if(error) throw error;
+      
+    }])
+  }
+}
 
 module.exports = { getDeviceData, addDevice,geDeviceDataById,deleteDevice,getDeviceUsing };
