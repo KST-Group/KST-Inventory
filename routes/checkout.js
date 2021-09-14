@@ -7,4 +7,6 @@ router.post('/detail',controller.createCheckOutDetail);
 router.put('/status',controller.updateStatus);
 router.post('/log',controller.addCheckOutLog);
 router.get('/logs',controller.getCheckOutLog);
+router.delete('/delDetail',controller.delDetail);
+router.delete('/delOut',controller.delCheckout);
 module.exports=router;

@@ -1,21 +1,18 @@
 const { json } = require("body-parser");
 var dbConnect = require("../config/config");
-//select checkout.checkoutId,username,employeeId,deviceId,checkOutDate  from checkout join checkoutdetail on checkout.checkoutId=checkoutdetail.checkoutId  
+//select checkout.checkoutId,username,employeeId,deviceId,checkOutDate  from checkout join checkoutdetail on checkout.checkoutId=checkoutdetail.checkoutId
 ///Get All data
 const getCheckOutData = (req, res) => {
-  dbConnect.query(
-    "SELECT*FROM checkout",
-    (error, results, field) => {
-      if (error) throw error;
-      let message = "";
-      if (results === undefined || results.length == 0) {
-        message = "Checkout data is empty";
-      } else {
-        message = "Successfully retrieve checkout data";
-      }
-      return res.send({ error: false, data: results, message: message });
+  dbConnect.query("SELECT*FROM checkout", (error, results, field) => {
+    if (error) throw error;
+    let message = "";
+    if (results === undefined || results.length == 0) {
+      message = "Checkout data is empty";
+    } else {
+      message = "Successfully retrieve checkout data";
     }
-  );
+    return res.send({ error: false, data: results, message: message });
+  });
 };
 
 //Create Checkout
@@ -36,9 +33,9 @@ const createCheckOut = (req, res) => {
         if (results.affectedRows == 0) {
           message = "Create checkout error";
         } else {
-            message = "Create checkout successfully";
+          message = "Create checkout successfully";
         }
-        
+
         return res.send({
           error: false,
           data: results,
@@ -50,34 +47,48 @@ const createCheckOut = (req, res) => {
 };
 
 //CheckOut Detail
-const createCheckOutDetail=(req,res)=>{
-    var checkoutId=req.body.checkoutId;
-    var deviceId=req.body.deviceId;
-    dbConnect.query('INSERT INTO checkoutdetail (checkoutId,deviceId) VALUES (?,?)',[checkoutId,deviceId],(error,results,field)=>{
-        if(error) throw error;
-        return res.send({error:false,data:results,message:'success'});
-    });
-
+const createCheckOutDetail = (req, res) => {
+  var checkoutId = req.body.checkoutId;
+  var deviceId = req.body.deviceId;
+  dbConnect.query(
+    "INSERT INTO checkoutdetail (checkoutId,deviceId) VALUES (?,?)",
+    [checkoutId, deviceId],
+    (error, results, field) => {
+      if (error) throw error;
+      return res.send({ error: false, data: results, message: "success" });
+    }
+  );
 };
 ///Update date device status
-const updateStatus=(req,res)=>{
-    var deviceId=req.body.deviceId;
-    var status='In use';
+const updateStatus = (req, res) => {
+  var deviceId = req.body.deviceId;
+  var status = "In use";
 
-    dbConnect.query('UPDATE deviceinfo set statuss=? WHERE deviceId=?',[status,deviceId],(error,results,field)=>{
-        if(error) throw error;
-        return res.send({error:false,data:results,message:'Update device status successully'});
-    });
+  dbConnect.query(
+    "UPDATE deviceinfo set statuss=? WHERE deviceId=?",
+    [status, deviceId],
+    (error, results, field) => {
+      if (error) throw error;
+      return res.send({
+        error: false,
+        data: results,
+        message: "Update device status successully",
+      });
+    }
+  );
 };
 
 //Add Log
 const addCheckOutLog = (req, res) => {
   var checkoutId = req.body.checkoutId;
-  var deviceId=req.body.deviceId;
+  var deviceId = req.body.deviceId;
   var employeeId = req.body.employeeId;
 
-  if (!checkoutId||!deviceId) {
-    return res.send({ error: true, message: "Please provide checkout ID for log" });
+  if (!checkoutId || !deviceId) {
+    return res.send({
+      error: true,
+      message: "Please provide checkout ID for log",
+    });
   } else {
     dbConnect.query(
       "INSERT INTO checkoutlog (checkoutId,deviceId,employeeId) VALUES (?,?,?)",
@@ -88,9 +99,9 @@ const addCheckOutLog = (req, res) => {
         if (results.affectedRows == 0) {
           message = "Create checkout Log error";
         } else {
-            message = "Create checkout log successfully";
+          message = "Create checkout log successfully";
         }
-        
+
         return res.send({
           error: false,
           data: results,
@@ -102,19 +113,69 @@ const addCheckOutLog = (req, res) => {
 };
 
 const getCheckOutLog = (req, res) => {
-  dbConnect.query(
-    "SELECT*FROM checkoutlog",
-    (error, results, field) => {
-      if (error) throw error;
-      let message = "";
-      if (results === undefined || results.length == 0) {
-        message = "Checkout log data is empty";
-      } else {
-        message = "Successfully retrieve checkout log data";
-      }
-      return res.send({ error: false, data: results, message: message });
+  dbConnect.query("SELECT*FROM checkoutlog", (error, results, field) => {
+    if (error) throw error;
+    let message = "";
+    if (results === undefined || results.length == 0) {
+      message = "Checkout log data is empty";
+    } else {
+      message = "Successfully retrieve checkout log data";
     }
-  );
+    return res.send({ error: false, data: results, message: message });
+  });
 };
 
-module.exports = { createCheckOut, getCheckOutData ,createCheckOutDetail,updateStatus,addCheckOutLog,getCheckOutLog};
+///delete checkout detail
+const delDetail = (req, res) => {
+  var checkoutdetailId = req.body.checkoutdetailId;
+  if (!checkoutdetailId) {
+    return res.send({ error: true, message: "Please provide id" });
+  } else {
+    dbConnect.query(
+      "DELETE FROM checkoutdetail WHERE checkoutdetailId=?",
+      [checkoutdetailId],
+      (error, results) => {
+        if (error) throw error;
+        let message = "";
+        if (results.affectedRows == 0) {
+          message = "Checkout detail not found or already deleted";
+        } else {
+          message = "Delete Detail Success";
+        }
+        return res.send({ error: false, data: results, message: message });
+      }
+    );
+  }
+};
+
+const delCheckout = (req, res) => {
+  var checkoutId = req.body.checkoutId;
+  if (!checkoutId) {
+    return res.send({ error: true, message: "Please provide id" });
+  } else {
+    dbConnect.query(
+      "DELETE FROM checkout WHERE checkoutId=?",
+      [checkoutId],
+      (error, results) => {
+        if (error) throw error;
+        let message = "";
+        if (results.affectedRows == 0) {
+          message = "Checkout  not found or already deleted";
+        } else {
+          message = "Delete checkout Success";
+        }
+        return res.send({ error: false, data: results, message: message });
+      }
+    );
+  }
+};
+
+
+module.exports = {
+  createCheckOut,
+  getCheckOutData,
+  createCheckOutDetail,
+  updateStatus,
+  addCheckOutLog,
+  getCheckOutLog,delDetail,delCheckout
+};
