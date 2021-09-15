@@ -17,6 +17,8 @@ const checkInRouter=require('./routes/checkin');
 
 const orderRouter=require('./routes/order');
 
+const repairRouter=require('./routes/repairs');
+
 const app = express();
 app.use(cors());  
 app.use(bodyParser.json());
@@ -60,6 +62,8 @@ app.use('/checkout',checkoutRouter);
 app.use('/checkin',checkInRouter);
 
 app.use('/order',orderRouter);
+
+app.use('/repairs',repairRouter);
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`Express server is running on port ${port}`);
