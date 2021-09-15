@@ -127,13 +127,13 @@ const getCheckOutLog = (req, res) => {
 
 ///delete checkout detail
 const delDetail = (req, res) => {
-  var checkoutdetailId = req.body.checkoutdetailId;
-  if (!checkoutdetailId) {
+  var deviceId = req.body.deviceId;
+  if (!deviceId) {
     return res.send({ error: true, message: "Please provide id" });
   } else {
     dbConnect.query(
-      "DELETE FROM checkoutdetail WHERE checkoutdetailId=?",
-      [checkoutdetailId],
+      "DELETE FROM checkoutdetail WHERE deviceId=?",
+      [deviceId],
       (error, results) => {
         if (error) throw error;
         let message = "";
@@ -170,12 +170,13 @@ const delCheckout = (req, res) => {
   }
 };
 
-
 module.exports = {
   createCheckOut,
   getCheckOutData,
   createCheckOutDetail,
   updateStatus,
   addCheckOutLog,
-  getCheckOutLog,delDetail,delCheckout
+  getCheckOutLog,
+  delDetail,
+  delCheckout,
 };
