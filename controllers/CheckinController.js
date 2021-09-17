@@ -94,4 +94,43 @@ const addCheckInDtail = (req, res) => {
       return res.send({ error: false, data: results, message: message });
     });
   };
-module.exports = { getDataCheckin,addCheckIn,getDataCheckinDetail,addCheckInDtail,checkinView };
+
+  const addCheckInLog=(req,res)=>{
+    var checkinId=req.body.checkinId;
+    var deviceId=req.body.deviceId;
+    var employeeId=req.body.employeeId;
+    var descriptions=req.body.descriptions;
+    if (!checkinId) {
+      return res.send({ error: true, message: "Please provide checkinId" });
+    } else {
+      dbConnect.query(
+        "INSERT INTO checkinlog (checkinId,deviceId,employeeId,descriptions) VALUES (?,?,?,?)",
+        [checkinId, deviceId,employeeId,descriptions],
+        (error, results, field) => {
+          if (error) throw error;
+  
+          return res.send({
+            error: false,
+            data: results,
+            message: "Successfully add checkinlog device",
+          });
+        }
+      );
+    }
+  }
+  const getCheckInLog = (req, res) => {
+    dbConnect.query("SELECT*FROM checkinlog", (error, results, field) => {
+      if (error) throw error;
+
+      var message = "";
+  
+      if (results === undefined || results.length == 0) {
+        message = "Data checkin log not found";
+      } else {
+        message = "Successfully checkin log data";
+      }
+      return res.send({ error: false, data: results, message: message });
+    });
+  };
+
+module.exports = { getDataCheckin,addCheckIn,getDataCheckinDetail,addCheckInDtail,checkinView ,addCheckInLog,getCheckInLog};
