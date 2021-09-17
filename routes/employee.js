@@ -9,6 +9,7 @@ router.post('/add', controller.addDataEmployee);
 router.delete('/del',controller.deleteEmployee);
 router.get('/usings',controller.getEmployeeUsingDevice);
 router.put('/up',controller.updateEmployee);
+router.get('/device/:deviceId',controller.getEmployeeByDevice);
 
 
 module.exports = router;

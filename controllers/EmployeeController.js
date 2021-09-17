@@ -134,9 +134,8 @@ const getEmployeeUsingDevice = (req, res) => {
   // });
 };
 
-
 ///Update
-const updateEmployee=(req,res)=>{
+const updateEmployee = (req, res) => {
   let employeeId = req.body.employeeId;
   let gender = req.body.gender;
   let name_la = req.body.name_la;
@@ -163,7 +162,7 @@ const updateEmployee=(req,res)=>{
         positionId,
         departmentId,
         companyId,
-        employeeId
+        employeeId,
       ],
       (error, results, field) => {
         if (error) throw error;
@@ -175,13 +174,32 @@ const updateEmployee=(req,res)=>{
       }
     );
   }
-  
-}
+};
+
+///get employee by device
+const getEmployeeByDevice = (req, res) => {
+  var deviceId = req.params.deviceId;
+  dbConnect.query(
+    "select*from checkout join checkoutdetail on checkout.checkoutId=checkoutdetail.checkoutId where deviceId=?",
+    [deviceId],
+    (error, results, field) => {
+      if (error) throw error;
+      let message = "";
+      if (results === undefined || results.length == 0) {
+        message = "Employee Device type is empty";
+      } else {
+        message = "Successfully get all EMployee devoice";
+      }
+      return res.send({ error: false, data: results, message: message });
+    }
+  );
+};
 module.exports = {
   getData,
   addDataEmployee,
   deleteEmployee,
   getEmployeeWithDevice,
   getEmployeeUsingDevice,
-  getEmpData,updateEmployee,
+  getEmpData,
+  updateEmployee,getEmployeeByDevice
 };
