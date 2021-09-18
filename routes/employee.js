@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var controller = require('../controllers/EmployeeController');
 
+
 router.get('/', controller.getData);
 router.get('/emp', controller.getEmpData);
 router.get('/device', controller.getEmployeeWithDevice);

@@ -83,4 +83,33 @@ const deleteUser = (req, res) => {
   );
 };
 
-module.exports = { getUser, addUser, getUserbyId, deleteUser };
+///Update user
+const updateUser=(req,res)=>{
+  var username=req.body.username;
+  var passwords=req.body.passwords;
+  var surname=req.body.surname;
+
+  if (!username || !passwords) {
+    return res.send({
+      error: true,
+      message: "Please input your Name and password",
+    });
+  } else {
+    dbConnect.query(
+      "UPDATE users SET surname=?,passwords=? WHERE username=?",
+      [surname, passwords,username],
+      (error, results, field) => {
+        if (error) throw error;
+        let message = "";
+        if (results.changedRows == 0) {
+          message = "User not found or dupicate data";
+        } else {
+          message = "Update User Successfully";
+        }
+        return res.send({ error: false, data: results, message: message });
+      }
+    );
+  }
+}
+
+module.exports = { getUser, addUser, getUserbyId, deleteUser,updateUser };

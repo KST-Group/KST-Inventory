@@ -1,8 +1,8 @@
 var dbConnect = require("../config/config");
-require('dotenv').config();
+require("dotenv").config();
 
 //Get Device Using
-const getDeviceUsing=(req,res)=>{
+const getDeviceUsing = (req, res) => {
   dbConnect.query("SELECT*FROM v_employee_using", (error, results, field) => {
     if (error) throw error;
     let message = "";
@@ -13,9 +13,7 @@ const getDeviceUsing=(req,res)=>{
     }
     return res.send({ error: false, data: results, message: message });
   });
-}
-
-
+};
 
 ///Get device data
 const getDeviceData = (req, res) => {
@@ -32,22 +30,26 @@ const getDeviceData = (req, res) => {
 };
 
 ///Get Device Dat by Id
-const geDeviceDataById=(req,res)=>{
-  let deviceId=req.params.deviceId;
-  dbConnect.query('SELECT*FROM v_devices WHERE deviceId=?',[deviceId],(error,results,field)=>{
-    if(error) throw error;
-    let message='';
-    if(results===undefined||results.length==0){
-      message="Device not found";
-    }else{
-      message='Succesfull your data by id';
+const geDeviceDataById = (req, res) => {
+  let deviceId = req.params.deviceId;
+  dbConnect.query(
+    "SELECT*FROM v_devices WHERE deviceId=?",
+    [deviceId],
+    (error, results, field) => {
+      if (error) throw error;
+      let message = "";
+      if (results === undefined || results.length == 0) {
+        message = "Device not found";
+      } else {
+        message = "Succesfull your data by id";
+      }
+      return res.send({ error: false, data: results, message: message });
     }
-    return res.send({error:false,data:results,message:message});
-  });
-}
+  );
+};
 
 ///Add a device
-const addDevice = (req, res) => {
+const addDevice = (req, res, next) => {
   var deviceId = req.body.deviceId;
   var localId = req.body.localId;
   var device_name = req.body.device_name;
@@ -57,7 +59,7 @@ const addDevice = (req, res) => {
   var model = req.body.model;
   var servicetag_sn = req.body.servicetag_sn;
   var provider = req.body.provider;
-  
+
   var typeId = req.body.typeId;
   var brandId = req.body.brandId;
   var cpus = req.body.cpus;
@@ -66,6 +68,7 @@ const addDevice = (req, res) => {
   var price = req.body.price;
   var warranty = req.body.warranty;
   var remark = req.body.remark;
+  //var image=req.fiel.filename;
 
   if (!deviceId || !device_name) {
     return res.send({
@@ -92,7 +95,8 @@ const addDevice = (req, res) => {
         hardisk,
         price,
         warranty,
-        remark,'In Stock'
+        remark,
+        "In Stock",
       ],
       (error, results, field) => {
         if (error) throw error;
@@ -107,33 +111,37 @@ const addDevice = (req, res) => {
 };
 
 ///Delete
-const deleteDevice=(req,res)=>{
-  let deviceId=req.body.deviceId;
+const deleteDevice = (req, res) => {
+  let deviceId = req.body.deviceId;
 
-  if(!deviceId){
-    res.send({error:true,message:'Please provide your device id for delete'});
-  }else{
-    dbConnect.query('DELETE FROM deviceinfo WHERE deviceId=?',[deviceId],(error,results,field)=>{
-      if(error) throw error;
-      let message='';
+  if (!deviceId) {
+    res.send({
+      error: true,
+      message: "Please provide your device id for delete",
+    });
+  } else {
+    dbConnect.query(
+      "DELETE FROM deviceinfo WHERE deviceId=?",
+      [deviceId],
+      (error, results, field) => {
+        if (error) throw error;
+        let message = "";
 
-      if(results.affectedRows===0){
-        message = "Device not found or already deleted";
-      }else{
-        message = "Delete Device Success";
+        if (results.affectedRows === 0) {
+          message = "Device not found or already deleted";
+        } else {
+          message = "Delete Device Success";
+        }
+        return res.send({ error: false, data: results, message: message });
       }
-      return res.send({ error: false, data: results, message: message });
-
-    })
+    );
   }
-}
-
-
+};
 
 //Update Status Device
 const updateStatusDevice = (req, res) => {
-  var deviceId=req.body.deviceId;
-  var statuss=req.body.statuss;
+  var deviceId = req.body.deviceId;
+  var statuss = req.body.statuss;
 
   if (!deviceId) {
     return res.send({
@@ -158,4 +166,75 @@ const updateStatusDevice = (req, res) => {
   }
 };
 
-module.exports = { getDeviceData, addDevice,geDeviceDataById,deleteDevice,getDeviceUsing,updateStatusDevice };
+const updateDevice = (req, res) => {
+  var deviceId = req.body.deviceId;
+  var localId = req.body.localId;
+  var device_name = req.body.device_name;
+  var computername = req.body.computername;
+  var comments = req.body.comments;
+  var joinDomain = req.body.joinDomain;
+  var model = req.body.model;
+  var servicetag_sn = req.body.servicetag_sn;
+  var provider = req.body.provider;
+
+  var typeId = req.body.typeId;
+  var brandId = req.body.brandId;
+  var cpus = req.body.cpus;
+  var ram = req.body.ram;
+  var hardisk = req.body.hardisk;
+  var price = req.body.price;
+  var warranty = req.body.warranty;
+  var remark = req.body.remark;
+  //var image=req.fiel.filename;
+
+  if (!deviceId) {
+    return res.send({
+      error: true,
+      message: "Please provide your device data",
+    });
+  } else {
+    dbConnect.query(
+      "UPDATE deviceinfo SET localId=?,device_name=?,computername=?,comments=?,joinDomain=? where deviceId=?",
+      [
+        localId,
+        device_name,
+        computername,
+        comments,
+        joinDomain,
+        // model,
+        // servicetag_sn,
+        // provider,
+        // typeId,
+        // brandId,
+        // cpus,
+        // ram,
+        // hardisk,
+        // price,
+        // warranty,
+        // remark,
+        // "In Stock",
+        deviceId,
+      ],
+      (error, results, field) => {
+        if (error) throw error;
+        let message = "";
+        if (results.changedRows == 0) {
+          message = "Device not found";
+        } else {
+          message = "Update Device Successfully";
+        }
+        return res.send({ error: false, data: results, message: message });
+      }
+    );
+  }
+};
+
+module.exports = {
+  getDeviceData,
+  addDevice,
+  geDeviceDataById,
+  deleteDevice,
+  getDeviceUsing,
+  updateStatusDevice,
+  updateDevice,
+};

@@ -1,7 +1,17 @@
-const upoads=(req,res)=>{
+function upload(req,res){
     if(req.file.filename){
-        return res.send({error:true,url:req.file.filename,message:'Upload Successfully'});
+        res.status(201).json({
+            message:'Upload image successfully',
+            url:req.file.filename,
+        });
     }else{
-        return res.send({error:true,message:'Somthing went wrong'});
+        res.status(500).json({
+            message:'Somthing went wrong',
+            
+        });
     }
+}
+
+module.exports={
+    upload:upload,
 }
